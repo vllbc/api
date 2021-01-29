@@ -1,8 +1,8 @@
 from app import db, app
+import time
 import click
 from app.script.collection import collections
-from queue import Queue
-from threading import Thread
+from app.models import QidianModel
 
 
 @app.cli.command()
@@ -16,13 +16,13 @@ def initdb(drop):
 
 @app.cli.command()
 def collection():
+    data = QidianModel.query.all()
+    for d in data:
+        db.session.delete(d)
+    db.session.commit()
+    start = time.time()
     urls = ['https://www.qidian.com/rank/collect?page={}'.format(i) for i in range(1, 6)]
-    in_q = Queue()
-    for u in urls:
-        in_q.put(u)
-    for _ in range(10):
-        thread = Thread(target=collections, args=(in_q,))
-        thread.daemon = True
-        thread.start()
-    in_q.join()
-    click.echo("Spider OK!")
+    for url in urls:
+        collections(url)
+    end = time.time()
+    click.echo(f"Spider OK! It takes {end - start:.2f} times!")

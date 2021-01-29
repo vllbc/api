@@ -13,4 +13,4 @@ app.config['SECRET_KEY'] = 'dev'
 
 db = SQLAlchemy(app)
 
-from app import view,command
+from app import view,command,errors

@@ -13,12 +13,18 @@ def collection():
     qds = QidianModel.query.all()
     maps = list()
     for qd in qds:
+        authors = {
+            'name': qd.author,
+            'authorid': qd.authorid
+        }
         maps.append(
             {
-                'id': qd.id,
+                'ranking': qd.ranking,
                 'title': qd.title,
-                'author': qd.author,
-                'classes': qd.classes
+                'author': authors,
+                'classes': qd.classes,
+                'bookid': qd.bookid,
+                'state': qd.state
             }
         )
-    return jsonify(allbooks=maps)
+    return jsonify(collection_rank=maps)
