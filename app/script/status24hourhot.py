@@ -2,7 +2,7 @@ from threading import Lock
 import requests
 from lxml import etree
 from app import db
-from app.models import QidianCollectionRank
+from app.models import Qidian24HourHotRank
 import re
 
 headers = {
@@ -12,7 +12,7 @@ headers = {
 lock = Lock()
 
 
-def collections(url):
+def hotsales(url):
     res = requests.get(url, headers=headers)
     sel = etree.HTML(res.text)
     infos = sel.xpath('//*[@id="rank-view-list"]/div/ul/li')
@@ -24,6 +24,6 @@ def collections(url):
         bookid = info.xpath('div[1]/a/@data-bid')[0]
         state = info.xpath('div[2]/p[1]/span/text()')[0]
         ranking = info.xpath('div[1]/span/text()')[0]
-        new_model = QidianCollectionRank(title=title, author=author, classes=classes,bookid=bookid, state=state, authorid=author_id, ranking=ranking)
+        new_model = Qidian24HourHotRank(title=title, author=author, classes=classes,bookid=bookid, state=state, authorid=author_id, ranking=ranking)
         db.session.add(new_model)
         db.session.commit()

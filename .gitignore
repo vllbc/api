@@ -3,3 +3,4 @@
 .idea/
 env/
 app/__pycache__/
+.coverage
