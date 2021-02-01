@@ -9,3 +9,12 @@ def error404(e):
         'data': 'Page Not Found!'
     }
     return jsonify(d),404
+
+
+@app.errorhandler(500)
+def error500(e):
+    d = {
+        'code': '500',
+        'data': 'Error!'
+    }
+    return jsonify(d)

@@ -1,14 +1,7 @@
 from app import db, app
 import time
 import click
-from app.script.collection import collections
-from app.script.monthlyticket import monthlytickets
-from app.script.status24hourhot import hotsales
-from app.script.readindex import readindexs
-from app.script.recom import recoms
-from app.script.signnew import signnews
-from app.script.pubnew import pubnews
-from app.script.fengyun import fengyuns
+from app.script.RankSpider import rankspider
 from app.models import QidianCollectionRank,QidianMonthlyTicketRank,Qidian24HourHotRank,QidianReadIndex, QidianRecom,QidianSignNew,QidianPubNew,QidianFengYun
 
 
@@ -27,7 +20,7 @@ def collection():
     start = time.time()
     urls = ['https://www.qidian.com/rank/collect?page={}'.format(i) for i in range(1, 6)]
     for url in urls:
-        collections(url)
+        rankspider(url,QidianCollectionRank)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -38,7 +31,7 @@ def monthlyticket():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/yuepiao?page={i}' for i in range(1,6)]
     for url in urls:
-        monthlytickets(url)
+        rankspider(url,QidianMonthlyTicketRank)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -49,7 +42,7 @@ def status24hour():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/hotsales?page={i}' for i in range(1, 6)]
     for url in urls:
-        hotsales(url)
+        rankspider(url,Qidian24HourHotRank)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -60,7 +53,7 @@ def readindex():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/readIndex?page={i}' for i in range(1,6)]
     for url in urls:
-        readindexs(url)
+        rankspider(url,QidianReadIndex)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -71,7 +64,7 @@ def recom():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/recom?page={i}' for i in range(1,6)]
     for url in urls:
-        recoms(url)
+        rankspider(url,QidianRecom)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -82,7 +75,7 @@ def signnew():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/signnewbook?page={i}' for i in range(1,6)]
     for url in urls:
-        signnews(url)
+        rankspider(url,QidianSignNew)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -93,7 +86,7 @@ def pubnew():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/pubnewbook?page={i}' for i in range(1,6)]
     for url in urls:
-        pubnews(url)
+        rankspider(url,QidianPubNew)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")
 
@@ -104,6 +97,6 @@ def fengyun():
     start = time.time()
     urls = [f'https://www.qidian.com/rank/fengyun?page={i}' for i in range(1,6)]
     for url in urls:
-        fengyuns(url)
+        rankspider(url,QidianFengYun)
     end = time.time()
     click.echo(f"Spider OK! It takes {end - start:.2f} times!")

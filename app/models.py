@@ -89,3 +89,5 @@ class QidianFengYun(db.Model):
     bookid = db.Column(db.String(100))
     state = db.Column(db.String(20))
     authorid = db.Column(db.String(30))
+
+# 待完成：新增粉丝榜，VIP更新榜，VIP收藏榜，VIP精品打赏榜，新人签约新书榜，新人作者新书榜，打赏粉丝榜，
