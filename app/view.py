@@ -1,8 +1,6 @@
 from app import app
 from flask import request, redirect, jsonify
-from app.models import QidianCollectionRank, QidianMonthlyTicketRank, Qidian24HourHotRank, QidianReadIndex, QidianRecom, \
-    QidianSignNew, QidianPubNew, QidianFengYun
-from app.utils import *
+from app.utilles import *
 from app.script.RankSpider import rankspider
 
 
@@ -15,7 +13,7 @@ def index():
 @app.route("/collection")
 def collection():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='collect', model=QidianCollectionRank, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='collect', spider_func=rankspider, **args)
     return jsonify(collection_rank=maps)
 
 
@@ -23,7 +21,7 @@ def collection():
 @app.route("/monthlyticket")
 def monthlyticket():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='yuepiao', model=QidianMonthlyTicketRank, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='yuepiao', spider_func=rankspider, **args)
     return jsonify(monthlyticket_rank=maps)
 
 
@@ -31,7 +29,7 @@ def monthlyticket():
 @app.route("/hotsales")
 def hotsales():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='hotsales', model=Qidian24HourHotRank, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='hotsales', spider_func=rankspider, **args)
     return jsonify(hotsales_rank=maps)
 
 
@@ -39,7 +37,7 @@ def hotsales():
 @app.route("/readindex")
 def readindex():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='readIndex', model=QidianReadIndex, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='readIndex', spider_func=rankspider, **args)
     return jsonify(readindex_rank=maps)
 
 
@@ -47,7 +45,7 @@ def readindex():
 @app.route("/recom")
 def recom():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='recom', model=QidianRecom, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='recom', spider_func=rankspider, **args)
     return jsonify(recom_rank=maps)
 
 
@@ -55,7 +53,7 @@ def recom():
 @app.route("/signnew")
 def signnew():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='signnewbook', model=QidianSignNew, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='signnewbook', spider_func=rankspider, **args)
     return jsonify(signnew_rank=maps)
 
 
@@ -63,7 +61,7 @@ def signnew():
 @app.route("/pubnew")
 def pubnew():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='pubnewbook', model=QidianPubNew, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='pubnewbook', spider_func=rankspider, **args)
     return jsonify(pubnew_rank=maps)
 
 
@@ -71,5 +69,5 @@ def pubnew():
 @app.route("/fengyun")
 def fengyun():
     args = dict(request.args)
-    maps = formaturl_spider_jsonify(types='fengyun', model=QidianFengYun, spider_func=rankspider, **args)
+    maps = formaturl_spider_jsonify(types='fengyun', spider_func=rankspider, **args)
     return jsonify(fengyun_rank=maps)

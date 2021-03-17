@@ -3,6 +3,7 @@ import requests
 from lxml import etree
 from app import db
 import re
+from collections import namedtuple
 
 
 headers = {
@@ -11,11 +12,14 @@ headers = {
 
 lock = Lock()
 
+model = namedtuple("model",['title', 'author', 'classes', 'bookid', 'state', 'authorid', 'ranking'])
 
-def rankspider(url, model):
+
+def rankspider(url):
     res = requests.get(url, headers=headers)
     sel = etree.HTML(res.text)
     infos = sel.xpath('//*[@id="rank-view-list"]/div/ul/li')
+    res = []
     for info in infos:
         title = info.xpath('div[2]/h4/a/text()')[0]
         author = info.xpath('div[2]/p[1]/a[1]/text()')[0]
@@ -24,6 +28,5 @@ def rankspider(url, model):
         bookid = info.xpath('div[1]/a/@data-bid')[0]
         state = info.xpath('div[2]/p[1]/span/text()')[0]
         ranking = info.xpath('div[1]/span/text()')[0]
-        new_model = model(title=title, author=author, classes=classes,bookid=bookid, state=state, authorid=author_id, ranking=ranking)
-        db.session.add(new_model)
-        db.session.commit()
+        res.append(model(title=title, author=author, classes=classes,bookid=bookid, state=state, authorid=author_id, ranking=ranking))
+    return res
